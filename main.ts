@@ -3,11 +3,15 @@ serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
 })
 let MAP = 0
 let AFR = ""
-serial.setBaudRate(BaudRate.BaudRate9600)
+serial.redirect(
+SerialPin.USB_TX,
+SerialPin.P0,
+BaudRate.BaudRate115200
+)
 basic.forever(function () {
-    MAP = pins.analogReadPin(AnalogPin.P0)
+    MAP = pins.analogReadPin(AnalogReadWritePin.P1)
+    datalogger.mirrorToSerial(true)
     datalogger.log(
-    datalogger.createCV("Time", input.runningTime()),
     datalogger.createCV("AFR", AFR),
     datalogger.createCV("MAP", MAP)
     )
